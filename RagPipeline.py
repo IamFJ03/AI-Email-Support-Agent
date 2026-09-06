@@ -25,7 +25,8 @@ class RagRetriever:
         return len(result["ids"])
 
     def file_loader(self, source):
-    
+        source = str(source)
+        
         if source.endswith(".pdf"):
             loader = PyMuPDFLoader(source)
     
@@ -50,6 +51,7 @@ class RagRetriever:
         )
 
         self.chunks = text_splitter.split_documents(self.document)
+        self.vector_store.add_documents(self.chunks)
 
     def document_retriever(self, question):
         retriever = self.vector_store.as_retriever(
